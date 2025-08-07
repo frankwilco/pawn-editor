@@ -120,10 +120,17 @@ public class TabWorker_Social : TabWorker_Table<Pawn>
             items.Add(new(SocialCardUtility.GetRelationsString(entry, pawn).Colorize(ColoredText.SubtleGrayColor), textAnchor: TextAnchor.MiddleLeft));
             items.Add(new(SocialCardUtility.GetPawnLabel(entry.otherPawn), i, TextAnchor.MiddleLeft));
             if (entry.otherPawn.Faction != Faction.OfPlayer)
-                items.Add(new($"{entry.otherPawn.Faction.PlayerRelationKind.ToString()}, {entry.otherPawn.Faction.Name}", ColoredText.SubtleGrayColor,
+            {
+                string factionText = entry.otherPawn.Faction == null
+                    ? "PawnEditor.NoFaction".Translate().ToString()
+                    : $"{entry.otherPawn.Faction.PlayerRelationKind.ToString()}, {entry.otherPawn.Faction.Name}";
+                items.Add(new(factionText, ColoredText.SubtleGrayColor,
                     textAnchor: TextAnchor.MiddleLeft));
+            }
             else
+            {
                 items.Add(new());
+            }
 
             items.Add(new(opinionRect =>
             {
