@@ -110,8 +110,12 @@ public class TabWorker_Social : TabWorker_Table<Pawn>
         var result = new List<UITable<Pawn>.Row>(SocialCardUtility.cachedEntries.Count);
         for (var i = 0; i < SocialCardUtility.cachedEntries.Count; i++)
         {
-            var items = new List<UITable<Pawn>.Row.Item>(5);
             var entry = SocialCardUtility.cachedEntries[i];
+            // Skip potentially invalid entries.
+            if (entry == null || entry.otherPawn == null) {
+                continue;
+            }
+            var items = new List<UITable<Pawn>.Row.Item>(5);
             items.Add(new(PawnEditor.GetPawnTex(entry.otherPawn, new(25, 25), Rot4.South, cameraZoom: 2f)));
             items.Add(new(SocialCardUtility.GetRelationsString(entry, pawn).Colorize(ColoredText.SubtleGrayColor), textAnchor: TextAnchor.MiddleLeft));
             items.Add(new(SocialCardUtility.GetPawnLabel(entry.otherPawn), i, TextAnchor.MiddleLeft));
